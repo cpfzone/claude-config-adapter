@@ -1,0 +1,61 @@
+{
+  "name": "claude-config-adapter",
+  "version": "1.0.0",
+  "description": "Enterprise-grade Claude API configuration management tool with multi-provider support",
+  "main": "src/index.js",
+  "bin": {
+    "cca": "bin/cca.js"
+  },
+  "scripts": {
+    "start": "node bin/cca.js",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "lint": "eslint src/ bin/",
+    "lint:fix": "eslint src/ bin/ --fix",
+    "build": "echo 'No build step required for Node.js project'",
+    "prepublishOnly": "npm test && npm run lint"
+  },
+  "keywords": [
+    "claude",
+    "anthropic",
+    "api",
+    "configuration",
+    "cli",
+    "enterprise",
+    "security",
+    "multi-provider"
+  ],
+  "author": "Claude Code Team",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "commander": "^12.0.0",
+    "inquirer": "^9.0.0",
+    "keytar": "^7.9.0",
+    "axios": "^1.0.0",
+    "chalk": "^5.0.0",
+    "configstore": "^6.0.0",
+    "yaml": "^2.0.0",
+    "fs-extra": "^11.0.0",
+    "ora": "^7.0.0"
+  },
+  "devDependencies": {
+    "jest": "^29.0.0",
+    "eslint": "^8.0.0",
+    "eslint-config-standard": "^17.0.0",
+    "eslint-plugin-import": "^2.0.0",
+    "eslint-plugin-node": "^11.0.0",
+    "eslint-plugin-promise": "^6.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/anthropics/claude-config-adapter.git"
+  },
+  "bugs": {
+    "url": "https://github.com/anthropics/claude-config-adapter/issues"
+  },
+  "homepage": "https://github.com/anthropics/claude-config-adapter#readme"
+}
