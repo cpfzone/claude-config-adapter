@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 const { program } = require('commander')
-const chalk = require('chalk').default
+const chalk = require('chalk')
 const packageJson = require('../package.json')
 
 // Import commands

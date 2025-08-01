@@ -12,10 +12,10 @@ class RollbackManager {
       if (await fs.pathExists(CLAUDE_SETTINGS_FILE)) {
         const backupPath = `${CLAUDE_SETTINGS_FILE}.backup.${Date.now()}`
         await fs.copy(CLAUDE_SETTINGS_FILE, backupPath)
-        
+
         // Keep only last 5 backups
         await this.cleanupOldBackups()
-        
+
         return backupPath
       }
       return null
@@ -27,7 +27,7 @@ class RollbackManager {
   async rollback() {
     try {
       const backups = await this.getAvailableBackups()
-      
+
       if (backups.length === 0) {
         throw new Error('No backups available for rollback')
       }
@@ -35,10 +35,10 @@ class RollbackManager {
       // Use most recent backup
       const latestBackup = backups[0]
       await fs.copy(latestBackup.path, CLAUDE_SETTINGS_FILE)
-      
+
       // Remove the backup after successful rollback
       await fs.remove(latestBackup.path)
-      
+
       return true
     } catch (error) {
       throw new Error(`Failed to rollback: ${error.message}`)
@@ -49,7 +49,7 @@ class RollbackManager {
     try {
       const configDir = path.dirname(CLAUDE_SETTINGS_FILE)
       const files = await fs.readdir(configDir)
-      
+
       const backups = files
         .filter(f => f.startsWith('settings.json.backup.'))
         .map(f => ({
@@ -68,10 +68,10 @@ class RollbackManager {
   async cleanupOldBackups() {
     try {
       const backups = await this.getAvailableBackups()
-      
+
       // Keep only last 5 backups
       const backupsToRemove = backups.slice(5)
-      
+
       for (const backup of backupsToRemove) {
         await fs.remove(backup.path)
       }
@@ -83,7 +83,7 @@ class RollbackManager {
   async removeAllBackups() {
     try {
       const backups = await this.getAvailableBackups()
-      
+
       for (const backup of backups) {
         await fs.remove(backup.path)
       }

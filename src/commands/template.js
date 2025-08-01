@@ -50,7 +50,6 @@ async function listTemplates() {
       }
       console.log()
     }
-
   } catch (error) {
     console.error(chalk.red('❌ Failed to list templates:'), error.message)
   }
@@ -128,7 +127,6 @@ async function applyTemplate(templateName) {
     console.log(chalk.dim('   1. Add token with: cca rotate ' + alias))
     console.log(chalk.dim('   2. Test with: cca test ' + alias))
     console.log(chalk.dim('   3. Activate with: cca use ' + alias))
-
   } catch (error) {
     console.error(chalk.red('❌ Failed to apply template:'), error.message)
   }

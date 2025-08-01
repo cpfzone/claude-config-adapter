@@ -6,10 +6,10 @@ async function listCommand(options) {
   try {
     const configManager = new ConfigManager()
     const securityManager = new SecurityManager()
-    
+
     const providers = await configManager.getAllProviders()
     const currentProvider = await configManager.getCurrentProvider()
-    
+
     if (Object.keys(providers).length === 0) {
       console.log(chalk.yellow('ℹ️  No configurations found. Add one with: cca add <alias>'))
       return
@@ -20,7 +20,7 @@ async function listCommand(options) {
     for (const [alias, provider] of Object.entries(providers)) {
       const isCurrent = currentProvider?.alias === alias
       const tokenExists = await securityManager.hasToken(alias)
-      
+
       if (options.verbose) {
         console.log(chalk.bold(`${isCurrent ? '🟢' : '⚪'} ${alias}`))
         console.log(`   URL: ${chalk.cyan(provider.base_url)}`)
@@ -42,7 +42,6 @@ async function listCommand(options) {
     } else {
       console.log(chalk.yellow('\n⚠️  No configuration is currently active'))
     }
-
   } catch (error) {
     console.error(chalk.red('❌ Failed to list configurations:'), error.message)
     process.exit(1)

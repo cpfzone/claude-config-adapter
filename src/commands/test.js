@@ -13,7 +13,7 @@ async function testCommand(alias, options) {
     const provider = await configManager.getProvider(alias)
     if (!provider) {
       console.log(chalk.red(`❌ Configuration '${alias}' not found`))
-      
+
       // Show available configurations
       const providers = await configManager.getAllProviders()
       if (Object.keys(providers).length > 0) {
@@ -34,10 +34,10 @@ async function testCommand(alias, options) {
 
     // Test configuration
     const spinner = ora('Testing API connectivity...').start()
-    
+
     try {
       const startTime = Date.now()
-      
+
       const response = await axios.post(
         `${provider.base_url}/messages`,
         {
@@ -47,33 +47,32 @@ async function testCommand(alias, options) {
         },
         {
           headers: {
-            'Authorization': `Bearer ${token}`,
+            Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json'
           },
           timeout: parseInt(options.timeout)
         }
       )
-      
+
       const endTime = Date.now()
       const responseTime = endTime - startTime
 
       spinner.succeed(chalk.green('✅ API connectivity test passed'))
-      
+
       console.log(chalk.blue('\n📊 Test Results:'))
       console.log(`   URL: ${chalk.cyan(provider.base_url)}`)
       console.log(`   Status: ${chalk.green(response.status)} ${response.statusText}`)
       console.log(`   Response Time: ${chalk.green(responseTime + 'ms')}`)
       console.log(`   Token: ${chalk.green('Valid')} (${securityManager.maskToken(token)})`)
-      
+
       if (response.data?.model) {
         console.log(`   Model: ${chalk.magenta(response.data.model)}`)
       }
-
     } catch (error) {
       spinner.fail(chalk.red('❌ API connectivity test failed'))
-      
+
       console.log(chalk.red('\n📊 Error Details:'))
-      
+
       if (error.response) {
         // Server responded with error
         console.log(`   Status: ${chalk.red(error.response.status)} ${error.response.statusText}`)
@@ -95,11 +94,10 @@ async function testCommand(alias, options) {
         // Other errors
         console.log(`   Error: ${chalk.red(error.message)}`)
       }
-      
+
       console.log(`   URL: ${chalk.cyan(provider.base_url)}`)
       process.exit(1)
     }
-
   } catch (error) {
     console.error(chalk.red('❌ Failed to test configuration:'), error.message)
     process.exit(1)

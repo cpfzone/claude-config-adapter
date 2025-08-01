@@ -95,7 +95,6 @@ async function initCommand(options) {
     console.log(chalk.dim('   1. Run: cca add <alias> to add your first configuration'))
     console.log(chalk.dim('   2. Run: cca list to view configurations'))
     console.log(chalk.dim('   3. Run: cca use <alias> to activate a configuration'))
-
   } catch (error) {
     console.error(chalk.red('❌ Failed to initialize CCA:'), error.message)
     process.exit(1)

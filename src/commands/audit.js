@@ -23,7 +23,7 @@ async function showAuditLog() {
     }
 
     const auditEntries = await fs.readJson(AUDIT_LOG)
-    
+
     if (auditEntries.length === 0) {
       console.log(chalk.yellow('ℹ️  Audit log is empty'))
       return
@@ -39,7 +39,6 @@ async function showAuditLog() {
 
       console.log(`${chalk.dim(timestamp)} [${chalk.cyan(action)}] ${chalk.yellow(user)} ${details}`)
     })
-
   } catch (error) {
     console.error(chalk.red('❌ Failed to read audit log:'), error.message)
   }
@@ -64,7 +63,6 @@ async function exportAuditLog(filePath) {
     }
 
     console.log(chalk.blue(`📊 Exported ${auditEntries.length} audit entries`))
-
   } catch (error) {
     console.error(chalk.red('❌ Failed to export audit log:'), error.message)
   }

@@ -13,7 +13,7 @@ async function rotateCommand(alias) {
     const provider = await configManager.getProvider(alias)
     if (!provider) {
       console.log(chalk.red(`❌ Configuration '${alias}' not found`))
-      
+
       // Show available configurations
       const providers = await configManager.getAllProviders()
       if (Object.keys(providers).length > 0) {
@@ -49,13 +49,13 @@ async function rotateCommand(alias) {
 
     // Validate new token
     const spinner = ora('Validating new token...').start()
-    
+
     try {
       await securityManager.validateToken(newToken, provider.base_url)
       spinner.succeed(chalk.green('✅ New token validated'))
     } catch (error) {
       spinner.fail(chalk.red('❌ Token validation failed'))
-      
+
       const { proceed } = await inquirer.prompt([
         {
           type: 'confirm',
@@ -64,7 +64,7 @@ async function rotateCommand(alias) {
           default: false
         }
       ])
-      
+
       if (!proceed) {
         console.log(chalk.blue('🚪 Operation cancelled'))
         return
@@ -98,7 +98,6 @@ async function rotateCommand(alias) {
       const testCommand = require('./test')
       await testCommand(alias, { timeout: '5000' })
     }
-
   } catch (error) {
     console.error(chalk.red('❌ Failed to rotate token:'), error.message)
     process.exit(1)

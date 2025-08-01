@@ -54,7 +54,7 @@ async function deleteCommand(alias, options) {
     if (isCurrent) {
       const fs = require('fs-extra')
       const { CURRENT_FILE } = require('../utils/paths')
-      
+
       try {
         await fs.remove(CURRENT_FILE)
         console.log(chalk.yellow('⚠️  No configuration is now active'))
@@ -63,7 +63,6 @@ async function deleteCommand(alias, options) {
         console.warn(chalk.yellow('⚠️  Could not clear current configuration'))
       }
     }
-
   } catch (error) {
     console.error(chalk.red('❌ Failed to delete configuration:'), error.message)
     process.exit(1)

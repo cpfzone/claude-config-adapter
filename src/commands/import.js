@@ -6,9 +6,9 @@ const ConfigManager = require('../utils/config-manager')
 async function importCommand(options) {
   try {
     const configManager = new ConfigManager()
-    
+
     let importData
-    
+
     if (options.file) {
       // Import from file
       if (!(await fs.pathExists(options.file))) {
@@ -20,33 +20,33 @@ async function importCommand(options) {
       // Import from stdin
       console.log(chalk.blue('📋 Reading configuration from stdin...'))
       console.log(chalk.dim('   Paste your YAML configuration and press Ctrl+D (Unix) or Ctrl+Z (Windows)'))
-      
+
       // Read from stdin
       let input = ''
       process.stdin.setEncoding('utf8')
-      
+
       for await (const chunk of process.stdin) {
         input += chunk
       }
-      
+
       importData = input
     }
-    
+
     if (!importData.trim()) {
       console.log(chalk.red('❌ No configuration data provided'))
       return
     }
-    
+
     // Show preview and confirm
     console.log(chalk.blue('\n📊 Preview of configurations to import:'))
-    
+
     const yaml = require('yaml')
     const configs = yaml.parse(importData)
-    
+
     Object.keys(configs).forEach(alias => {
       console.log(`   - ${chalk.bold(alias)}: ${configs[alias].base_url}`)
     })
-    
+
     const { confirm } = await inquirer.prompt([
       {
         type: 'confirm',
@@ -55,17 +55,17 @@ async function importCommand(options) {
         default: true
       }
     ])
-    
+
     if (!confirm) {
       console.log(chalk.blue('🚪 Operation cancelled'))
       return
     }
-    
+
     // Import configurations
     const importedCount = await configManager.importProviders(importData)
-    
+
     console.log(chalk.green(`✅ Successfully imported ${importedCount} configuration(s)`))
-    
+
     // Show next steps
     if (importedCount > 0) {
       console.log(chalk.dim('\n📋 Next steps:'))
@@ -73,7 +73,6 @@ async function importCommand(options) {
       console.log(chalk.dim('   2. Test configurations with: cca test <alias>'))
       console.log(chalk.dim('   3. Activate with: cca use <alias>'))
     }
-
   } catch (error) {
     console.error(chalk.red('❌ Failed to import configurations:'), error.message)
     process.exit(1)

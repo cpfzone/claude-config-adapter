@@ -1,7 +1,7 @@
 const fs = require('fs-extra')
 const path = require('path')
 const yaml = require('yaml')
-const { PROVIDERS_FILE, ENVS_DIR, TEMPLATES_DIR, CURRENT_FILE } = require('./paths')
+const { PROVIDERS_FILE, ENVS_DIR, CURRENT_FILE } = require('./paths')
 
 class ConfigManager {
   constructor() {
@@ -52,7 +52,7 @@ class ConfigManager {
     if (!this.providers[alias]) {
       throw new Error(`Provider '${alias}' not found`)
     }
-    
+
     const provider = this.providers[alias]
     delete this.providers[alias]
     await this.saveProviders()
@@ -89,7 +89,7 @@ class ConfigManager {
     if (!provider) {
       throw new Error(`Provider '${alias}' not found`)
     }
-    
+
     await fs.ensureDir(path.dirname(CURRENT_FILE))
     await fs.writeFile(CURRENT_FILE, JSON.stringify({ alias }, null, 2))
     return provider
@@ -97,7 +97,7 @@ class ConfigManager {
 
   async exportProviders(includeTokens = false) {
     const exportData = {}
-    
+
     for (const [alias, provider] of Object.entries(this.providers)) {
       exportData[alias] = {
         alias: provider.alias,
@@ -107,7 +107,7 @@ class ConfigManager {
         updated_at: provider.updated_at
       }
     }
-    
+
     return yaml.stringify(exportData)
   }
 
@@ -115,17 +115,17 @@ class ConfigManager {
     try {
       const importData = yaml.parse(yamlContent)
       let importedCount = 0
-      
+
       for (const [alias, config] of Object.entries(importData)) {
         if (await this.hasProvider(alias)) {
           console.warn(`Provider '${alias}' already exists, skipping...`)
           continue
         }
-        
+
         await this.addProvider(alias, config)
         importedCount++
       }
-      
+
       return importedCount
     } catch (error) {
       throw new Error(`Failed to import providers: ${error.message}`)
@@ -134,7 +134,7 @@ class ConfigManager {
 
   async getEnvironmentConfig(environment) {
     const envFile = path.join(ENVS_DIR, `${environment}.json`)
-    
+
     try {
       if (await fs.pathExists(envFile)) {
         const content = await fs.readFile(envFile, 'utf-8')
@@ -143,7 +143,7 @@ class ConfigManager {
     } catch (error) {
       console.warn(`Failed to load environment config: ${error.message}`)
     }
-    
+
     return {}
   }
 

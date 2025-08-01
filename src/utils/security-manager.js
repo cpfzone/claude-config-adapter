@@ -46,10 +46,10 @@ class SecurityManager {
     try {
       // Remove old token
       await this.removeToken(alias)
-      
+
       // Store new token
       await this.storeToken(alias, newToken)
-      
+
       return true
     } catch (error) {
       throw new Error(`Failed to rotate token: ${error.message}`)
@@ -59,7 +59,7 @@ class SecurityManager {
   async validateToken(token, baseUrl) {
     try {
       const axios = require('axios')
-      
+
       const response = await axios.post(
         `${baseUrl}/messages`,
         {
@@ -69,13 +69,13 @@ class SecurityManager {
         },
         {
           headers: {
-            'Authorization': `Bearer ${token}`,
+            Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json'
           },
           timeout: 5000
         }
       )
-      
+
       return response.status === 200
     } catch (error) {
       if (error.response?.status === 401) {
@@ -88,7 +88,7 @@ class SecurityManager {
   maskToken(token) {
     if (!token) return '****'
     if (token.length <= 8) return '****'
-    
+
     const prefix = token.substring(0, 4)
     const suffix = token.substring(token.length - 4)
     return `${prefix}****${suffix}`

@@ -5,7 +5,11 @@ describe('ConfigManager', () => {
 
   beforeEach(() => {
     configManager = new ConfigManager()
+    // Mock the saveProviders to avoid file system operations
+    configManager.saveProviders = jest.fn().mockResolvedValue()
+    // Mock loadProviders to initialize empty providers instead of actual file loading
     configManager.providers = {}
+    configManager.loadProviders = jest.fn().mockResolvedValue()
   })
 
   describe('addProvider', () => {

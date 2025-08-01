@@ -83,7 +83,7 @@ async function addCommand(alias, options) {
           default: false
         }
       ])
-      
+
       if (!proceed) {
         console.log(chalk.blue('🚪 Operation cancelled'))
         return
@@ -91,9 +91,9 @@ async function addCommand(alias, options) {
     }
 
     // Save configuration
-    const provider = await configManager.addProvider(alias, {
+    await configManager.addProvider(alias, {
       base_url: baseUrl,
-      vendor: vendor
+      vendor
     })
 
     // Store token securely
@@ -120,7 +120,6 @@ async function addCommand(alias, options) {
         await useCommand(alias, { env: 'prod' })
       }
     }
-
   } catch (error) {
     console.error(chalk.red('❌ Failed to add configuration:'), error.message)
     process.exit(1)
@@ -129,12 +128,12 @@ async function addCommand(alias, options) {
 
 function detectVendor(url) {
   const urlLower = url.toLowerCase()
-  
+
   if (urlLower.includes('moonshot.cn')) return 'kimi'
   if (urlLower.includes('aliyuncs.com') || urlLower.includes('dashscope')) return 'qwen'
   if (urlLower.includes('anthropic.com')) return 'anthropic'
   if (urlLower.includes('openai.com')) return 'openai'
-  
+
   return 'custom'
 }
 
