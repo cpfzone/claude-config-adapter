@@ -26,7 +26,7 @@
     "security",
     "multi-provider"
   ],
-  "author": "Claude Code Team",
+  "author": "cpfzone",
   "license": "MIT",
   "engines": {
     "node": ">=18.0.0"
@@ -52,10 +52,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/anthropics/claude-config-adapter.git"
+    "url": "https://github.com/cpfzone/claude-config-adapter.git"
   },
   "bugs": {
-    "url": "https://github.com/anthropics/claude-config-adapter/issues"
+    "url": "https://github.com/cpfzone/claude-config-adapter/issues"
   },
-  "homepage": "https://github.com/anthropics/claude-config-adapter#readme"
+  "homepage": "https://github.com/cpfzone/claude-config-adapter#readme"
 }
