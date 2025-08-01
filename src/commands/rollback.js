@@ -1,5 +1,5 @@
 const chalk = require('chalk')
-const inquirer = require('inquirer')
+const { default: inquirer } = require('inquirer')
 const RollbackManager = require('../utils/rollback-manager')
 
 async function rollbackCommand(options) {

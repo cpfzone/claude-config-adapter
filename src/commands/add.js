@@ -1,4 +1,4 @@
-const inquirer = require('inquirer')
+const { default: inquirer } = require('inquirer')
 const chalk = require('chalk')
 const ConfigManager = require('../utils/config-manager')
 const SecurityManager = require('../utils/security-manager')
@@ -54,6 +54,7 @@ async function addCommand(alias, options) {
           message: 'Select vendor:',
           choices: [
             { name: 'Anthropic (auto-detected)', value: 'auto' },
+            { name: 'GLM (Zhipu)', value: 'glm' },
             { name: 'Kimi (Moonshot)', value: 'kimi' },
             { name: 'Qwen (Alibaba)', value: 'qwen' },
             { name: 'OpenAI', value: 'openai' },
@@ -133,6 +134,7 @@ function detectVendor(url) {
   if (urlLower.includes('aliyuncs.com') || urlLower.includes('dashscope')) return 'qwen'
   if (urlLower.includes('anthropic.com')) return 'anthropic'
   if (urlLower.includes('openai.com')) return 'openai'
+  if (urlLower.includes('open.bigmodel.cn') || urlLower.includes('bigmodel.cn')) return 'glm'
 
   return 'custom'
 }

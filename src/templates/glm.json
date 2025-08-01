@@ -1,0 +1,5 @@
+{
+  "base_url": "https://open.bigmodel.cn/api/anthropic",
+  "vendor": "glm",
+  "description": "GLM-4.5 API (supports Claude-code format)"
+}

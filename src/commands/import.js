@@ -1,6 +1,6 @@
 const fs = require('fs-extra')
 const chalk = require('chalk')
-const inquirer = require('inquirer')
+const { default: inquirer } = require('inquirer')
 const ConfigManager = require('../utils/config-manager')
 
 async function importCommand(options) {

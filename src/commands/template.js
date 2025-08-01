@@ -1,7 +1,7 @@
 const fs = require('fs-extra')
 const path = require('path')
 const chalk = require('chalk')
-const inquirer = require('inquirer')
+const { default: inquirer } = require('inquirer')
 const { TEMPLATES_DIR } = require('../utils/paths')
 
 async function templateCommand(options) {

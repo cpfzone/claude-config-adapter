@@ -6,7 +6,14 @@ const { PROVIDERS_FILE, ENVS_DIR, CURRENT_FILE } = require('./paths')
 class ConfigManager {
   constructor() {
     this.providers = {}
-    this.loadProviders()
+    this.initialized = false
+  }
+
+  async ensureInitialized() {
+    if (!this.initialized) {
+      await this.loadProviders()
+      this.initialized = true
+    }
   }
 
   async loadProviders() {
@@ -38,6 +45,7 @@ class ConfigManager {
   }
 
   async addProvider(alias, config) {
+    await this.ensureInitialized()
     this.providers[alias] = {
       ...config,
       alias,
@@ -49,6 +57,7 @@ class ConfigManager {
   }
 
   async removeProvider(alias) {
+    await this.ensureInitialized()
     if (!this.providers[alias]) {
       throw new Error(`Provider '${alias}' not found`)
     }
@@ -60,18 +69,22 @@ class ConfigManager {
   }
 
   async getProvider(alias) {
+    await this.ensureInitialized()
     return this.providers[alias] || null
   }
 
   async getAllProviders() {
+    await this.ensureInitialized()
     return this.providers
   }
 
   async hasProvider(alias) {
+    await this.ensureInitialized()
     return !!this.providers[alias]
   }
 
   async getCurrentProvider() {
+    await this.ensureInitialized()
     try {
       if (await fs.pathExists(CURRENT_FILE)) {
         const content = await fs.readFile(CURRENT_FILE, 'utf-8')
